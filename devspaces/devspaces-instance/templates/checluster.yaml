@@ -27,6 +27,17 @@ spec:
     startTimeoutSeconds: {{ .Values.devEnvironments.startTimeoutSeconds }}
     secondsOfRunBeforeIdling: {{ .Values.devEnvironments.secondsOfRunBeforeIdling }}
     maxNumberOfWorkspacesPerUser: {{ .Values.devEnvironments.maxNumberOfWorkspacesPerUser }}
+    defaultContainerResources:
+      limits:
+        cpu: {{ .Values.devEnvironments.resources.limits.cpu }}
+        memory: {{ .Values.devEnvironments.resources.limits.memory }}
+      requests:
+        cpu: {{ .Values.devEnvironments.resources.requests.cpu }}
+        memory: {{ .Values.devEnvironments.resources.requests.memory }}
+    containerResourceCaps:
+      limits:
+        cpu: {{ .Values.devEnvironments.resources.limits.cpu }}
+        memory: {{ .Values.devEnvironments.resources.limits.memory }}
     containerBuildConfiguration:
       openShiftSecurityContextConstraint: container-build
     disableContainerBuildCapabilities: false
