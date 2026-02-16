@@ -18,6 +18,7 @@ spec:
             adminUser: {{ .Values.quay.adminUser }}
             adminUserPassword: {{ .Values.quay.adminUserPassword | quote }}
             organizations: {{ .Values.quay.organizations | toJson }}
+            users: {{ .Values.quay.users | toJson }}
           vault:
             name: {{ .Values.vault.name }}
             namespace: {{ .Values.vault.namespace }}

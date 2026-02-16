@@ -164,3 +164,33 @@ data:
             validate_certs: false
             status_code: 201
 {{- end }}
+
+{{- range $user := .Values.quay.users }}
+        - name: Create user {{ $user.username }}
+          ansible.builtin.uri:
+            url: '{{ "{{" }} r_quay_registry.resources[0].status.registryEndpoint {{ "}}" }}/api/v1/superuser/users/'
+            method: POST
+            headers:
+              Authorization: 'Bearer {{ "{{" }} r_quayadmin.json.access_token {{ "}}" }}'
+            body:
+              username: {{ $user.username }}
+              email: {{ $user.email }}
+            body_format: json
+            validate_certs: false
+            status_code:
+              - 200
+          register: r_create_user_{{ $user.username }}
+
+        - name: Set password for {{ $user.username }}
+          ansible.builtin.uri:
+            url: '{{ "{{" }} r_quay_registry.resources[0].status.registryEndpoint {{ "}}" }}/api/v1/superuser/users/{{ $user.username }}'
+            method: PUT
+            headers:
+              Authorization: 'Bearer {{ "{{" }} r_quayadmin.json.access_token {{ "}}" }}'
+            body:
+              password: {{ $user.password }}
+            body_format: json
+            validate_certs: false
+            status_code:
+              - 200
+{{- end }}
