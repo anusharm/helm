@@ -72,7 +72,7 @@ spec:
                 else
                   # Vault is not initialized - initialize it
                   echo "Initializing Vault for the first time..."
-                  oc exec {{ include "vault.name" . }}-0 --namespace={{ .Release.Namespace }} --stdin --tty -- vault operator init -format=yaml > /tmp/vault-auto-unseal-keys.txt
+                  oc exec {{ include "vault.name" . }}-0 --namespace={{ .Release.Namespace }} -- vault operator init -format=yaml > /tmp/vault-auto-unseal-keys.txt
 
                   echo "Copying unseal keys to Vault pod..."
                   cat /tmp/vault-auto-unseal-keys.txt | oc exec -i -n {{ .Release.Namespace }} {{ include "vault.name" . }}-0 -c {{ include "vault.name" . }} "--" sh -c "cat > /vault/data/vault-auto-unseal-keys.txt"
@@ -81,7 +81,7 @@ spec:
                   cat /vault-unseal-config/unseal.sh | oc exec -i -n {{ .Release.Namespace }} {{ include "vault.name" . }}-0 -c {{ include "vault.name" . }} "--" sh -c "cat > /vault/data/unseal.sh"
 
                   echo "Unsealing Vault..."
-                  oc exec {{ include "vault.name" . }}-0 --namespace={{ .Release.Namespace }} --stdin --tty -- /bin/sh /vault/data/unseal.sh
+                  oc exec {{ include "vault.name" . }}-0 --namespace={{ .Release.Namespace }} -- /bin/sh /vault/data/unseal.sh
 
                   # Verify unsealing succeeded
                   set +e
