@@ -31,6 +31,9 @@ vault:
       token: ""
     common:
       password: ""
+    litellm:
+      apiUrl: ""
+      apiKey: ""
 
 externalSecrets:
   name: external-secrets

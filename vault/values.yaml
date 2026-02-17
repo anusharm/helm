@@ -22,3 +22,6 @@ secrets:
     token: ""
   common:
     password: ""
+  litellm:
+    apiUrl: ""
+    apiKey: ""

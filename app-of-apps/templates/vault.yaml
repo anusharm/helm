@@ -38,6 +38,9 @@ spec:
             token: {{ .Values.vault.secrets.orchestrator.token | quote }}
           common:
             password: {{ .Values.vault.secrets.common.password | quote }}
+          litellm:
+            apiUrl: {{ .Values.vault.secrets.litellm.apiUrl | quote }}
+            apiKey: {{ .Values.vault.secrets.litellm.apiKey | quote }}
   syncPolicy:
     automated: {}
     syncOptions:
