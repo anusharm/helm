@@ -122,6 +122,9 @@ data:
             - 'vault kv put kv/secrets/rhdh/postgresql-password value={{ $.Values.secrets.rhdh.postgresqlPassword }}'
             - 'vault kv put kv/secrets/rhdh/orchestrator-token value={{ $.Values.secrets.orchestrator.token }}'
             - 'vault kv put kv/secrets/common/password value={{ $.Values.secrets.common.password }}'
+{{- if $.Values.secrets.kafka.userPassword }}
+            - 'vault kv put kv/secrets/kafka/user-password value={{ $.Values.secrets.kafka.userPassword }}'
+{{- end }}
 {{- if and $.Values.secrets.litellm.apiUrl $.Values.secrets.litellm.apiKey }}
             - 'vault kv put kv/secrets/litellm/credentials base_url={{ $.Values.secrets.litellm.apiUrl }} api_key={{ $.Values.secrets.litellm.apiKey }}'
 {{- end }}

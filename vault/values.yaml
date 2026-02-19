@@ -25,3 +25,5 @@ secrets:
   litellm:
     apiUrl: ""
     apiKey: ""
+  kafka:
+    userPassword: ""

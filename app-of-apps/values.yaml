@@ -34,6 +34,8 @@ vault:
     litellm:
       apiUrl: ""
       apiKey: ""
+    kafka:
+      userPassword: ""
 
 externalSecrets:
   name: external-secrets
@@ -152,6 +154,11 @@ devspaces:
   enabled: true
   name: devspaces
   namespace: openshift-devspaces
+
+amqStreams:
+  enabled: true
+  name: amq-streams
+  namespace: kafka
 
 orchestrator:
   name: orchestrator
