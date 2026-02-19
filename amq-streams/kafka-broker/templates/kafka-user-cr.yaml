@@ -18,7 +18,7 @@ spec:
     password:
       valueFrom:
         secretKeyRef:
-          name: {{ .Values.authentication.clientId }}-user-secret
+          name: {{ include "kafka-broker.name" . }}-user-secret
           key: clientSecret
   {{- if eq .Values.authorization "simple" }}
   authorization:

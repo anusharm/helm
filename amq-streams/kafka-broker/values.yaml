@@ -43,7 +43,7 @@ kafka:
 namespace:
 
 authentication:
-  clientId: parasol
+  clientId: franz
   saslMechanism: SCRAM-SHA-512
 
 authorization: simple
