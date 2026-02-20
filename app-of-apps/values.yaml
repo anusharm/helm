@@ -160,6 +160,10 @@ amqStreams:
   name: amq-streams
   namespace: kafka
 
+parasol:
+  name: parasol
+  namespace: parasol-dev
+
 orchestrator:
   name: orchestrator
   namespace: backstage
