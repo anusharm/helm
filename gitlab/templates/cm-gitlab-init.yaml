@@ -193,6 +193,29 @@ data:
               url: {{ $item1.url }}
               checkPipeline: {{ include "gitlab.repo.check-pipeline" $item1 }}
 {{- end }}
+
+        - name: Set default branch for imported repositories
+          ansible.builtin.uri:
+            url: https://{{ $.Values.gitlab.host }}/api/v4/projects/{{ $item.name }}%2F{{ "{{" }} item.name {{ "}}" }}
+            method: PUT
+            body_format: form-urlencoded
+            body:
+              default_branch: '{{ "{{" }} item.defaultBranch {{ "}}" }}'
+            headers:
+              PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
+            validate_certs: false
+            status_code:
+              - 200
+          retries: 10
+          delay: 5
+          register: r_default_branch
+          until: r_default_branch.status == 200
+          when: item.defaultBranch != 'main'
+          loop:
+{{- range $item1 := $item.repo }}
+            - name: {{ $item1.name }}
+              defaultBranch: {{ $item1.defaultBranch | default "main" }}
+{{- end }}
 {{- end }}
 
 {{- if $item.project }}
