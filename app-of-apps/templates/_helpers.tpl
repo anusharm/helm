@@ -27,6 +27,8 @@ Usage: {{ include "app-of-apps.metadata" (dict "name" "my-app" "namespace" .Valu
 metadata:
   name: {{ .name }}
   namespace: {{ .namespace }}
+  labels:
+    app.kubernetes.io/part-of: app-of-apps
   annotations:
     argocd.argoproj.io/sync-wave: "{{ .syncWave }}"
   finalizers:
