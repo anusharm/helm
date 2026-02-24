@@ -49,6 +49,8 @@ gitlab:
         - name: import-existing-api-template
           url: https://github.com/redhat-pe-workshop/import-api-template.git
           defaultBranch: dev
+        - name: devfiles
+          url: https://github.com/redhat-pe-workshop/devfiles.git
         - name: rhdh-entities
           url: https://github.com/redhat-pe-workshop/pe-workshop-entities.git
         - name: template-developer-self-service
