@@ -23,6 +23,16 @@ The workshop stands up the following on a single OpenShift cluster:
 | **Red Hat Developer Hub** | `redhat-developer-hub/` | Internal developer portal (Backstage) |
 | **Trusted Artifact Signer** | `rhtas/` | Sigstore-based container image signing (Fulcio, Rekor, etc.) |
 
+## Deployment settling time
+
+A full deployment can take around 30 minutes before all Argo CD Applications report as Synced and Healthy. The main bottleneck is GitLab — its own initialisation is slow, and our init Jobs (user/group/repo creation, PAT generation, Vault secret writes) can only run after GitLab is fully ready. Several downstream components then depend on secrets that GitLab's init writes to Vault:
+
+- **ExternalSecrets** like DevSpaces' `gitlab-oauth-config` won't sync until the corresponding Vault entry exists, which only happens after the GitLab init Job completes
+- **Red Hat Developer Hub** depends on the GitLab PAT and webhook secret being in Vault before its own ExternalSecrets can resolve
+- **Operators** (AMQ Streams, DevSpaces, OpenShift Pipelines) install via OLM Subscriptions, which can add a few minutes while CSVs install and operands start
+
+If an Application appears stuck, check whether its upstream dependency (usually GitLab or Vault) has finished initialising.
+
 ## App-of-apps pattern
 
 The `app-of-apps/` chart is the root. It renders one Argo CD `Application` CR per component, each pointing back into this same repository at the appropriate chart path. Argo CD then syncs each child Application independently.
