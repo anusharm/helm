@@ -1,0 +1,24 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: dynamic-plugins
+  labels:
+    {{- include "developer-hub.labels" . | nindent 4 }}
+  annotations:
+    {{- include "developer-hub.argocd-syncwave" . | nindent 4 }}
+data:
+  dynamic-plugins.yaml: |
+    includes:
+      - dynamic-plugins.default.yaml
+    plugins:
+      {{- range $plugin := .Values.dynamicPlugins }}
+      - package: {{ $plugin.package }}
+        disabled: {{ $plugin.disabled | default false }}
+        {{- with $plugin.pluginConfig }}
+        pluginConfig:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with $plugin.integrity }}
+        integrity: {{ . }}
+        {{- end }}
+      {{- end }}
