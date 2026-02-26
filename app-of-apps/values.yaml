@@ -116,9 +116,9 @@ developerHub:
       apiUrl: ""
   application:
     git:
-      host: ""
-      group: rhdh
-      repo: dh-config
+      host: "github.com"
+      group: redhat-ads-tech
+      repo: ocp-app-platform-demo-developer-hub-config
       revision: main
 
 rhdhGitops:
