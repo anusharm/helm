@@ -15,17 +15,6 @@ spec:
         vault:
           namespace: {{ .Values.vault.namespace }}
           name: {{ .Values.vault.name }}
-        gitlab:
-          rootPassword: {{ .Values.developerHub.configTemplate.gitlab.rootPassword | quote }}
-          host: {{ .Values.developerHub.configTemplate.gitlab.host }}
-        backstage:
-          host: {{ .Values.developerHub.configTemplate.backstage.host }}
-        gitops:
-          host: {{ .Values.developerHub.configTemplate.gitops.host }}
-        kubernetes:
-          api: {{ .Values.developerHub.configTemplate.kubernetes.api }}
-        cluster:
-          subdomain: {{ .Values.developerHub.configTemplate.cluster.subdomain }}
 {{ include "app-of-apps.syncPolicy" . | indent 2 }}
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -37,13 +26,17 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: developer-hub/developer-hub-application
-    repoURL: {{ .Values.gitops.repoURL }}
-    targetRevision: {{ .Values.gitops.targetRevision }}
+    repoURL: https://{{ .Values.developerHub.application.git.host }}/{{ .Values.developerHub.application.git.group }}/{{ .Values.developerHub.application.git.repo }}.git
+    targetRevision: {{ .Values.developerHub.application.git.revision }}
+    path: .
     helm:
       valuesObject:
-        gitops:
-          namespace: {{ .Values.developerHub.application.gitops.namespace }}
-        git:
-          host: {{ .Values.developerHub.application.git.host }}
+        backstage:
+          host: {{ .Values.developerHub.config.backstage.host }}
+        gitlab:
+          host: {{ .Values.developerHub.config.gitlab.host }}
+        argocd:
+          host: {{ .Values.developerHub.config.argocd.host }}
+        kubernetes:
+          apiUrl: {{ .Values.developerHub.config.kubernetes.apiUrl }}
 {{ include "app-of-apps.syncPolicy" . | indent 2 }}

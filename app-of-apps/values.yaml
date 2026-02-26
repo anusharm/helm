@@ -105,23 +105,21 @@ quay:
 developerHub:
   name: developer-hub
   namespace: rhdh
-  configTemplate:
-    gitlab:
-      rootPassword: ""
-      host: ""
+  config:
     backstage:
       host: ""
-    gitops:
+    gitlab:
+      host: ""
+    argocd:
       host: ""
     kubernetes:
-      api: ""
-    cluster:
-      subdomain: ""
+      apiUrl: ""
   application:
-    gitops:
-      namespace: openshift-gitops
     git:
       host: ""
+      group: rhdh
+      repo: dh-config
+      revision: main
 
 rhdhGitops:
   name: rhdh-gitops
