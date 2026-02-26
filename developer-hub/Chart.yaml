@@ -3,3 +3,11 @@ name: developer-hub
 description: Deploys Red Hat Developer Hub via the RHDH Operator
 type: application
 version: 0.1.0
+
+dependencies:
+  - name: developer-hub-prereqs
+    version: 0.1.0
+    repository: file://developer-hub-prereqs
+  - name: developer-hub-application
+    version: 0.1.0
+    repository: file://developer-hub-application

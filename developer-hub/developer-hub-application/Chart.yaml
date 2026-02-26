@@ -1,0 +1,5 @@
+apiVersion: v2
+name: developer-hub-application
+description: ArgoCD Application for Developer Hub config from GitLab
+type: application
+version: 0.1.0

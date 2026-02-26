@@ -1,14 +1,14 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "developer-hub.name" -}}
+{{- define "developer-hub-prereqs.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Create a default fully qualified app name.
 */}}
-{{- define "developer-hub.fullname" -}}
+{{- define "developer-hub-prereqs.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -24,16 +24,16 @@ Create a default fully qualified app name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "developer-hub.chart" -}}
+{{- define "developer-hub-prereqs.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "developer-hub.labels" -}}
-helm.sh/chart: {{ include "developer-hub.chart" . }}
-{{ include "developer-hub.selectorLabels" . }}
+{{- define "developer-hub-prereqs.labels" -}}
+helm.sh/chart: {{ include "developer-hub-prereqs.chart" . }}
+{{ include "developer-hub-prereqs.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -43,15 +43,15 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "developer-hub.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "developer-hub.name" . }}
+{{- define "developer-hub-prereqs.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "developer-hub-prereqs.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 ArgoCD Syncwave
 */}}
-{{- define "developer-hub.argocd-syncwave" -}}
+{{- define "developer-hub-prereqs.argocd-syncwave" -}}
 {{- if .Values.argocd }}
 {{- if and (.Values.argocd.syncwave) (.Values.argocd.enabled) -}}
 argocd.argoproj.io/sync-wave: "{{ .Values.argocd.syncwave }}"

@@ -43,6 +43,8 @@ gitlab:
           defaultBranch: dev
         - name: developer-hub-config
           url: https://github.com/redhat-pe-workshop/developer-hub-config.git
+        - name: dh-config
+          url: https://github.com/redhat-ads-tech/rhdh-config.git
         - name: import-existing-app-template
           url: https://github.com/redhat-pe-workshop/import-existing-app-template.git
           defaultBranch: dev

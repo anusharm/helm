@@ -1,0 +1,12 @@
+nameOverride: "backstage"
+
+namespace: rhdh
+
+gitops:
+  namespace: openshift-gitops
+
+git:
+  host:
+  group: rhdh
+  repo: dh-config
+  revision: main

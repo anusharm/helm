@@ -12,17 +12,24 @@ spec:
     targetRevision: {{ .Values.gitops.targetRevision }}
     helm:
       valuesObject:
-        vault:
-          namespace: {{ .Values.vault.namespace }}
-          name: {{ .Values.vault.name }}
-        appConfig:
-          app:
-            title: {{ .Values.developerHub.appConfig.app.title }}
-            baseUrl: {{ .Values.developerHub.appConfig.app.baseUrl }}
+        developer-hub-prereqs:
+          vault:
+            namespace: {{ .Values.vault.namespace }}
+            name: {{ .Values.vault.name }}
           gitlab:
-            host: {{ .Values.developerHub.appConfig.gitlab.host }}
-          argocd:
-            host: {{ .Values.developerHub.appConfig.argocd.host }}
+            rootPassword: {{ .Values.developerHub.configTemplate.gitlab.rootPassword | quote }}
+            host: {{ .Values.developerHub.configTemplate.gitlab.host }}
+          backstage:
+            host: {{ .Values.developerHub.configTemplate.backstage.host }}
+          gitops:
+            host: {{ .Values.developerHub.configTemplate.gitops.host }}
           kubernetes:
-            apiUrl: {{ .Values.developerHub.appConfig.kubernetes.apiUrl }}
+            api: {{ .Values.developerHub.configTemplate.kubernetes.api }}
+          cluster:
+            subdomain: {{ .Values.developerHub.configTemplate.cluster.subdomain }}
+        developer-hub-application:
+          gitops:
+            namespace: {{ .Values.developerHub.application.gitops.namespace }}
+          git:
+            host: {{ .Values.developerHub.application.git.host }}
 {{ include "app-of-apps.syncPolicy" . | indent 2 }}

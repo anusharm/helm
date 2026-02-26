@@ -1,0 +1,49 @@
+nameOverride: "backstage"
+
+namespace: rhdh
+
+vault:
+  namespace: vault
+  name: vault
+
+operator:
+  channel: fast-1.8
+
+gitlab:
+  rootPassword:
+  host:
+  email:
+    address: "gitlab@rhdemo.com"
+    displayName: "Gitlab"
+
+configTemplate:
+  group: rhdh
+  repo: dh-config
+  branch: main
+  templates:
+    - backstage-cr.yaml
+    - configmap-app-config.yaml
+    - configmap-dynamic-plugins.yaml
+    - configmap-rbac-policy.yaml
+    - es-argocd-password.yaml
+    - es-gitlab-token.yaml
+    - es-kubernetes-sa-token.yaml
+    - es-oauth-client.yaml
+    - es-orchestrator-token.yaml
+    - secret-backstage-npmrc.yaml
+
+backstage:
+  host:
+
+gitops:
+  host:
+
+kubernetes:
+  api:
+
+cluster:
+  subdomain:
+
+argocd:
+  enabled: true
+  syncwave: "-1"
