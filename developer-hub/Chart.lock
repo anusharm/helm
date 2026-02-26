@@ -1,9 +1,0 @@
-dependencies:
-- name: developer-hub-prereqs
-  repository: file://developer-hub-prereqs
-  version: 0.1.0
-- name: developer-hub-application
-  repository: file://developer-hub-application
-  version: 0.1.0
-digest: sha256:e51b1d1ced5d76324880d24c42f16cd09f6f107f443d1ab5b0d659d035c5c4f9
-generated: "2026-02-25T15:14:06.275726-08:00"

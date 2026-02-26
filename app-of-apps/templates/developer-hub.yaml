@@ -1,35 +1,49 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
-{{ include "app-of-apps.metadata" (dict "name" .Values.developerHub.name "namespace" .Values.argocd.namespace "syncWave" "2") }}
+{{ include "app-of-apps.metadata" (dict "name" (printf "%s-prereqs" .Values.developerHub.name) "namespace" .Values.argocd.namespace "syncWave" "2") }}
 spec:
   destination:
     namespace: {{ .Values.developerHub.namespace }}
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: developer-hub
+    path: developer-hub/developer-hub-prereqs
     repoURL: {{ .Values.gitops.repoURL }}
     targetRevision: {{ .Values.gitops.targetRevision }}
     helm:
       valuesObject:
-        developer-hub-prereqs:
-          vault:
-            namespace: {{ .Values.vault.namespace }}
-            name: {{ .Values.vault.name }}
-          gitlab:
-            rootPassword: {{ .Values.developerHub.configTemplate.gitlab.rootPassword | quote }}
-            host: {{ .Values.developerHub.configTemplate.gitlab.host }}
-          backstage:
-            host: {{ .Values.developerHub.configTemplate.backstage.host }}
-          gitops:
-            host: {{ .Values.developerHub.configTemplate.gitops.host }}
-          kubernetes:
-            api: {{ .Values.developerHub.configTemplate.kubernetes.api }}
-          cluster:
-            subdomain: {{ .Values.developerHub.configTemplate.cluster.subdomain }}
-        developer-hub-application:
-          gitops:
-            namespace: {{ .Values.developerHub.application.gitops.namespace }}
-          git:
-            host: {{ .Values.developerHub.application.git.host }}
+        vault:
+          namespace: {{ .Values.vault.namespace }}
+          name: {{ .Values.vault.name }}
+        gitlab:
+          rootPassword: {{ .Values.developerHub.configTemplate.gitlab.rootPassword | quote }}
+          host: {{ .Values.developerHub.configTemplate.gitlab.host }}
+        backstage:
+          host: {{ .Values.developerHub.configTemplate.backstage.host }}
+        gitops:
+          host: {{ .Values.developerHub.configTemplate.gitops.host }}
+        kubernetes:
+          api: {{ .Values.developerHub.configTemplate.kubernetes.api }}
+        cluster:
+          subdomain: {{ .Values.developerHub.configTemplate.cluster.subdomain }}
+{{ include "app-of-apps.syncPolicy" . | indent 2 }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+{{ include "app-of-apps.metadata" (dict "name" (printf "%s-application" .Values.developerHub.name) "namespace" .Values.argocd.namespace "syncWave" "3") }}
+spec:
+  destination:
+    namespace: {{ .Values.developerHub.namespace }}
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: developer-hub/developer-hub-application
+    repoURL: {{ .Values.gitops.repoURL }}
+    targetRevision: {{ .Values.gitops.targetRevision }}
+    helm:
+      valuesObject:
+        gitops:
+          namespace: {{ .Values.developerHub.application.gitops.namespace }}
+        git:
+          host: {{ .Values.developerHub.application.git.host }}
 {{ include "app-of-apps.syncPolicy" . | indent 2 }}
