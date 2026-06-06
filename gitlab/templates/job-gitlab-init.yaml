@@ -15,6 +15,7 @@ spec:
           - '-c'
           - |
             set -x
+            export GIT_SSL_NO_VERIFY=true
             ansible-playbook -i localhost /scripts/playbook.yaml
         image: quay.io/agnosticd/ee-multicloud:latest
         volumeMounts:
