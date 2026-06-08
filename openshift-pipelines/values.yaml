@@ -1,7 +1,7 @@
 nameOverride: ""
 
 subscription:
-  channel: "stable-3.17"
+  channel: ""
   installPlanApproval: Automatic
   name: openshift-pipelines-operator-rh
   source: redhat-operators
